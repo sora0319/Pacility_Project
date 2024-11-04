@@ -1,0 +1,243 @@
+<!------ Include the above in your HEAD tag ---------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title>Pacility</title>
+</head>
+
+<style>
+	@import '../css/mdb.min.css';
+	@import '../css/mdb.rtl.min.css';
+</style>
+
+<body>
+	<script type="text/javascript" src="../javascripts/link.js"></script>
+	<!-- Navigation-->
+	<nav>
+
+		<header>
+			<div class="py-4 text-left" style="background-color: white; height: 120px;">
+				<a role="button" onclick = "gotomain()" target="_blank"> 
+				<img src="/images/pacility.png"
+					alt="" style="width: 80px; height: 80px;">
+				</a>
+				<div class="py-4 right" style="float: right;">
+						<a role="button" class="btn btn-primary btn-lg m-2" onclick = "gotologin()" target="_blank">
+						LogIn</a>
+				</div>
+			</div>
+
+		</header>
+	</nav>
+
+
+
+	<header class="bg-dark py-5">
+		<div class="text-right text-white">
+			<h1 class="display-4 fw-bolder">&nbsp;&nbsp;&nbsp;&nbsp;등록한 정보 확인</h1>
+		</div>
+	</header>
+
+
+
+	<div class="col-sm-12">
+		<div class="bg-white rounded shadow-5-strong p-5 col-sm-12">
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="facilitynamel"> <br>
+					<h5>기관명:</h5>
+				</label>
+				<label class="control-label col-sm-4" for="facilitynamel"> <br>
+					<%= facilitytable.name %>
+				</label>
+				<div class="col-sm-6">
+					
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="addressl"> <br>
+					<h5>주소:</h5>
+				</label>
+				<label class="control-label col-sm-4">
+					<%= facilitytable.address %>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="typel"> <br>
+					<h5>기관종류</h5> 
+				</label>
+				<label class="control-label col-sm-4">
+					<%= facilitytable.type %>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for=tell> <br>
+					<h5>전화번호</h5>
+				</label>
+				<label class="control-label col-sm-4">
+					<%= facilitytable.number %>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="urll"> <br>
+					<h5>기관정보사이트(url)</h5>
+				</label>
+				<label class="control-label col-sm-4">
+					<%= facilitytable.pagelink %>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="reservl"> <br>
+					<h5>예약가능여부</h5>
+				</label>
+				<label class="control-label col-sm-4">
+					<% if(facilitytable.reservation == null){ %>
+						CANNOT
+					<% } else { %>
+						<%= facilitytable.reservation %>
+					<% } %>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="chargewkl"> <br>
+					평일요금
+				</label>
+				<label class="control-label col-sm-4">
+					<%= chargetable.charge_weekday %>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="chargewdl"> <br>
+					주말요금
+				</label>
+				<label class="control-label col-sm-4">
+					<%= chargetable.charge_weekend %>
+				</label>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="wkoper"> <br>
+					평일운영시간
+				</label>
+				<div class = "row">
+					<label class="control-label col-sm-1" for="open">
+						Open :
+					</label>
+					<label class="control-label col-sm-1">
+						<%= hourtable.open_weekday %>
+					</label>
+					<label class="control-label col-sm-1" for="open">
+						Close :
+					</label>
+					<label class="control-label col-sm-1">
+						<%= hourtable.close_weekday %>
+					</label>
+				</div>
+				
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="wdoper"> <br>
+					주말운영시간
+				</label>
+				<div class = "row">
+					<label class="control-label col-sm-1" for="open">
+						Open :
+					</label>
+					<div class="control-label col-sm-1">
+						<%= hourtable.open_weekend %>
+					</div>
+					<label class="control-label col-sm-1" for="open">
+						Close :
+					</label>
+					<div class="control-label col-sm-1">
+						<%= hourtable.close_weekdend %>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="operday"> <br>
+					운영일
+				</label>
+				<br>
+				<div class = "row">
+					<div class = "col-sm-1">
+						월요일: 
+					</div>
+					<div class = "col-sm-1">
+						<%= operdaytable.Mon %>
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-sm-1">
+						화요일: 
+					</div>
+					<div class = "col-sm-1">
+						<%= operdaytable.Tue %>
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-sm-1">
+						수요일: 
+					</div>
+					<div class = "col-sm-1">
+						<%= operdaytable.Wed %>
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-sm-1">
+						목요일: 
+					</div>
+					<div class = "col-sm-1">
+						<%= operdaytable.Thu %>
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-sm-1">
+						금요일: 
+					</div>
+					<div class = "col-sm-1">
+						<%= operdaytable.Fri %>
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-sm-1">
+						토요일: 
+					</div>
+					<div class = "col-sm-1">
+						<%= operdaytable.Sat %>
+					</div>
+				</div>
+				<div class = "row">
+					<div class = "col-sm-1">
+						일요일: 
+					</div>
+					<div class = "col-sm-1">
+						<%= operdaytable.Sun %>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-1" for="comment"> <br>
+					Comment
+				</label>
+				<div class="col-sm-1">
+					<%= operdaytable.comment %>
+				</div>
+			</div>
+			<div class="form-group">
+				<p></p>
+				<button type="submit" class="btn btn-primary" value="Submit" onclick = "gotomain()">메인으로 돌아가기</button>
+			</div>
+			
+		</div>
+	</div>
+
+	<footer class="bg-light text-lg-start">
+
+		<hr class="m-0" />
+		<!-- Copyright -->
+		<div class="text-center p-3"
+			style="background-color: rgba(0, 0, 0, 0.2);">© 2020 Copyright
+			Pacility</div>
+		<!-- Copyright -->
+	</footer>

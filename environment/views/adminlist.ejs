@@ -1,0 +1,196 @@
+<html>
+  <head>
+    <title><%= title%></title>
+  </head>
+  <body>
+    <header>
+      <!-- Intro settings -->
+      <link href="https://fonts.googleapis.com/earlyaccess/jejugothic.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/earlyaccess/hanna.css" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+      <style>
+          @import '/css/mdb.min.css';
+          @import '/css/mdb.rtl.min.css';
+          #intro {
+              /* Margin to fix overlapping fixed navbar */
+              margin-top: 58px;
+          }
+          @media (max-width: 991px) {
+              #intro {
+              /* Margin to fix overlapping fixed navbar */
+              margin-top: 45px;
+              }
+          }
+          .hn{font-family: 'Hanna', sans-serif;}
+      </style>
+  
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+        <div class="container-fluid">
+          <!-- Navbar brand -->
+          <a class="navbar-brand" target="_blank" href=".">
+            <img src="/images/pacility.png  " alt="" style="width: 80px; height: 80px;" onclick="location.href='../main' " />
+          </a>
+          <form>
+					  <button type="button" class="btn btn-primary btn-lg m-2" onclick="location.href='../main' ">logout</button>
+				  </form>
+        </div>
+      </nav>
+      <!-- Navbar -->
+  
+      <!-- Jumbotron -->
+      <div class ="container-fluid">
+        <div class="row pt-5 mt-5"   style="height: 300px;">
+          <div class="col-lg-6 col-md-12">
+            <div class="d-flex flex-column align-items-center justify-content-center "
+            style="height: 200px;"> 
+              <div>
+                <form action="/adminlist" method="get">
+                  <legend class="hn">기관 검색하기 </legend>
+                  <div class="input-group">
+                    <input type="search" name="keyword" class="form-control rounded" placeholder="Search" aria-label="Search"
+                      aria-describedby="search-addon" />
+                    <button type="submit" class="btn btn-outline-danger">search</button>
+                  </div>
+                </form>
+              </div>         
+            </div>
+          </div>    <!--buttons for categories-->
+          <div class="col-lg-6 col-md-12 p-5">  
+            <div class="d-flex justify-content-center">
+              <div>
+                <form>
+                  <div class="col-lg-12 col-mg-12 pb-5">
+                    <fieldset>
+                      <legend class="hn"> 종목검색 </legend>
+                      <div class="pb-3">
+                        <input type="checkbox" class="form-check-input " id="btn-check" name="type_opt1" autocomplete="off" 
+                        <%if(result.type_opt1){%> checked <% } %> />
+                        <label class="btn btn-secondary hn" for="btn-check">체육관, 헬스장, 운동장</label>
+                      </div>
+                      <div class="pb-3">
+                        <input type="checkbox" class="form-check-input" id="btn-check2" name="type_opt2" autocomplete="off"
+                        <%if(result.type_opt2){%> checked <% } %> />
+                        <label class="btn btn-secondary hn" for="btn-check2">축구장, 야구장, 테니스장</label>
+                      </div>
+                      <div class="pb-3">
+                        
+                        <input type="checkbox" class="form-check-input" id="btn-check3" name="type_opt3" autocomplete="off"
+                        <%if(result.type_opt3){%> checked <% } %> />
+                        <label class="btn btn-secondary hn" for="btn-check3">볼링장, 야구장, 스크린골프장</label>
+                      </div>
+                      <div class="pb-3">
+                        <input type="checkbox" class="form-check-input" id="btn-check4" name="type_opt4" vautocomplete="off"
+                        <%if(result.type_opt4){%> checked <% } %> />
+                        <label class="btn btn-secondary hn" for="btn-check4">기타</label>
+                      </div>  
+                    </fieldset>
+                    <button type="submit" class="btn btn-outline-danger">검색</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!--Main Navigation-->
+  
+    <!--Main layout-->
+    <main class="pt-5 ">
+      <div class="container">
+        <!--Section: Content-->
+        <section class="text-center">
+          <h4 class="mb-5"><strong>목록</strong></h4>
+  
+          <div class="row" height = "512">
+            <%
+            for (var i=0; i < contents.length; i++){
+              %>
+            
+            <div class="col-lg-4 col-md-12 mb-4 h-100">
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><%= contents[i]['name']%></h5>
+                  <p class="card-text hn">
+                    기관종류 : <%= contents[i]['type']%>
+                  </p>
+                  <p class="card-text">
+                    예약가능 여부 : <%if(contents[i]['reservation']!= null){%><span><%= contents[i]['reservation']%></span> <%} else{%> <span>알수 없음</span><%}%>
+                  </p>
+                  <a href="mdetails/<%= contents[i]['ID']%>" class="btn btn-primary hn">자세히</a>
+                </div>
+              </div>
+            </div>
+            <%
+            }
+            %>
+          </div>
+          
+        </section>
+        <!--Section: Content-->
+
+        <!-- Pagination -->
+      
+      </div>
+    
+    
+    <nav aria-label="Page navigation example">
+      <% if (result.contents.length != 0) { %>
+      <ul class="pagination justify-content-center">
+        
+        <li <%if(result.pageNum == 1){%> class="page-item disabled" <% }else{ %> class="page-item" <% } %> >
+          <a class="page-link" <% if(result.pageNum > 1){ %> href="?pageNum=<%=result.pageNum-1%>" <%}%> tabindex="-1">Previous</a>
+        </li>
+        
+        
+        <%if(result.pageNum-2 > 0){%>
+          <li class="page-item">
+            <a class="page-link" href="?pageNum=<%=result.pageNum-2%>" tabindex="-1"><%=result.pageNum-2%></a>
+          </li>
+        <% } %>
+        
+        <%if(result.pageNum-1 > 0){%>
+          <li class="page-item">
+            <a class="page-link" href="?pageNum=<%=result.pageNum-1%>" tabindex="-1"><%=result.pageNum-1%></a>
+          </li>
+        <% } %>
+        
+        <li class="page-item active">
+          <a class="page-link" aria-current="page" href="?pageNum=<%=result.pageNum%>" tabindex="-1"><%=result.pageNum%><span class="visually-hidden">(current)</span></a>
+        </li>
+        
+        <%if(result.pageNum+1 <= result.pnTotal){%>
+          <li class="page-item">
+            <a class="page-link" href="?pageNum=<%=result.pageNum+1%>" tabindex="-1"><%=result.pageNum+1%></a>
+          </li>
+        <% } %>
+        
+        <%if(result.pageNum+2 <= result.pnTotal){%>
+          <li class="page-item">
+            <a class="page-link" href="?pageNum=<%=result.pageNum+2%>" tabindex="-1"><%=result.pageNum+2%></a>
+          </li>
+        <% } %>
+        
+        <li <%if(result.pageNum == result.pnTotal){%> class="page-item disabled" <% }else{ %> class="page-item" <% } %> >
+          <a class="page-link" <% if(result.pageNum+1 <= result.pnTotal){ %> href="?pageNum=<%=result.pageNum+1%>" <%}%> tabindex="-1">Next</a>
+        </li>
+      </ul>
+      <% } %>
+    </nav>
+   
+    <!--Main layout-->
+    <!--Footer-->
+    <footer class="bg-light text-lg-start">
+      <hr class="m-0" />
+  
+      <!-- Copyright -->
+      <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2020 Copyright Pacility</a>
+      </div>
+      <!-- Copyright -->
+    </footer>
+      <!--Footer-->
+  </body>
+</html>

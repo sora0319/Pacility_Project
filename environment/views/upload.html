@@ -1,0 +1,323 @@
+<!------ Include the above in your HEAD tag ---------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<title>Pacility</title>
+</head>
+
+<style>
+@import './css/mdb.min.css';
+@import './css/mdb.rtl.min.css';
+</style>
+
+<body>
+	<script type="text/javascript" src="./javascripts/link.js"></script>
+	<!-- Navigation-->
+	<nav>
+
+		<header>
+			<div class="py-4 text-left" style="background-color: white; height: 120px;">
+				<a role="button" onclick = "gotomain()" target="_blank"> 
+				<img src="/images/pacility.png"
+					alt="" style="width: 80px; height: 80px;">
+				</a>
+				<div class="py-4 right" style="float: right;">
+						<a role="button" class="btn btn-primary btn-lg m-2" onclick = "gotologin()" target="_blank">
+						LogIn</a>
+				</div>
+			</div>
+
+		</header>
+	</nav>
+
+
+
+	<header class="bg-dark py-5">
+		<div class="text-right text-white">
+			<h1 class="display-4 fw-bolder">&nbsp;&nbsp;&nbsp;&nbsp;새로운 운동 기관 업로드 하기</h1>
+		</div>
+	</header>
+
+
+
+	<div class="col-sm-12">
+		<div class="contact-form">
+			<form action ="./upload/UpClick" method = "POST" class="bg-white rounded shadow-5-strong p-5 col-sm-12">
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="facilitynamel"> <br>
+						기관명 <div style = "display: inline; color: red; font-size: 10px;">* 필수 입력 문항</div>
+					</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="facilityname" placeholder="기관명을 입력하세요" name="facilityname">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="addressl"> <br>
+						주소 <div style = "display: inline; color: red; font-size: 10px;">* 필수 입력 문항</div>
+					</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="address" placeholder="주소를 입력하세요" name="address">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="typel"> <br>
+						기관종류 <div style = "display: inline; color: red; font-size: 10px;">* 필수 입력 문항</div>
+					</label>
+					<div class="col-sm-6">
+						<select class="form-control" id="type" name="type">
+							<option selected>Open this select menu</option>
+							<option value="당구장">당구장</option>
+						 	<option value="롤러스케이트">롤러스케이트장</option>
+						 	<option value="볼링장">볼링장</option>
+						 	<option value="수영장">수영장</option>
+						 	<option value="암벽등반">암벽등반</option>
+						 	<option value="야구장">야구장</option>
+						 	<option value="운동장">운동장</option>
+						 	<option value="족구장">족구장</option>
+						 	<option value="체육관">체육관</option>
+						 	<option value="축구장">축구장</option>
+						 	<option value="테니스장">테니스장</option>
+						 	<option value="풋살장">풋살장</option>
+						 	<option value="헬스장">헬스장</option>
+						 	<option value="기타">기타</option>
+						 </select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for=tell> <br>
+						전화번호
+					</label>
+					<div class="col-sm-6">
+						<input type="tel" class="form-control" id="tel" placeholder="기관 전화번호를 입력하세요" name="tel">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="urll"> <br>
+						기관정보사이트(url)
+					</label>
+					<div class="col-sm-6">
+						<input type="url" class="form-control" id="url" placeholder="사이트 주소를 입력하세요" name="url">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="reservl"> <br>
+						예약가능여부
+					</label>
+					<div class="col-sm-6">
+						<select class="form-control" id="reserv" name="reserv">
+							<option selected>CANNOT</option>
+							<option value="can">CAN</option>
+						 </select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="chargewkl"> <br>
+						평일요금
+					</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="chargewk" placeholder="요금을 입력하세요" name="chargewk">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="chargewdl"> <br>
+						주말요금
+					</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="chargewd" placeholder="요금을 입력하세요" name="chargewd">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="wkoper"> <br>
+						평일운영시간
+					</label>
+					<div class = "row">
+						<label class="control-label col-sm-1" for="open">
+							Open :
+						</label>
+						<div class="col-sm-1">
+							<select class="form-control" id="wkopen" name="wkopen">
+								<option selected></option>
+								<option value="0:00">0:00</option>
+								<option value="1:00">1:00</option>
+								<option value="2:00">2:00</option>
+								<option value="3:00">3:00</option>
+								<option value="4:00">4:00</option>
+								<option value="5:00">5:00</option>
+								<option value="6:00">6:00</option>
+								<option value="7:00">7:00</option>
+								<option value="8:00">8:00</option>
+								<option value="9:00">9:00</option>
+								<option value="10:00">10:00</option>
+								<option value="11:00">11:00</option>
+								<option value="12:00">12:00</option>
+								<option value="13:00">13:00</option>
+								<option value="14:00">14:00</option>
+								<option value="15:00">15:00</option>
+								<option value="16:00">16:00</option>
+								<option value="17:00">17:00</option>
+								<option value="18:00">18:00</option>
+								<option value="19:00">19:00</option>
+								<option value="20:00">20:00</option>
+								<option value="21:00">21:00</option>
+								<option value="22:00">22:00</option>
+								<option value="23:00">23:00</option>
+								<option value="24:00">24:00</option>
+							 </select>
+						</div>
+						<label class="control-label col-sm-1" for="open">
+							Close :
+						</label>
+						<div class="col-sm-1">
+							<select class="form-control" id="wkclose" name="wkclose">
+								<option selected></option>
+								<option value="0:00">0:00</option>
+								<option value="1:00">1:00</option>
+								<option value="2:00">2:00</option>
+								<option value="3:00">3:00</option>
+								<option value="4:00">4:00</option>
+								<option value="5:00">5:00</option>
+								<option value="6:00">6:00</option>
+								<option value="7:00">7:00</option>
+								<option value="8:00">8:00</option>
+								<option value="9:00">9:00</option>
+								<option value="10:00">10:00</option>
+								<option value="11:00">11:00</option>
+								<option value="12:00">12:00</option>
+								<option value="13:00">13:00</option>
+								<option value="14:00">14:00</option>
+								<option value="15:00">15:00</option>
+								<option value="16:00">16:00</option>
+								<option value="17:00">17:00</option>
+								<option value="18:00">18:00</option>
+								<option value="19:00">19:00</option>
+								<option value="20:00">20:00</option>
+								<option value="21:00">21:00</option>
+								<option value="22:00">22:00</option>
+								<option value="23:00">23:00</option>
+								<option value="24:00">24:00</option>
+							 </select>
+						</div>
+					</div>
+					
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="wdoper"> <br>
+						주말운영시간
+					</label>
+					<div class = "row">
+						<label class="control-label col-sm-1" for="open">
+							Open :
+						</label>
+						<div class="col-sm-1">
+							<select class="form-control" id="wdopen" name="wdopen">
+								<option selected></option>
+								<option value="0:00">0:00</option>
+								<option value="1:00">1:00</option>
+								<option value="2:00">2:00</option>
+								<option value="3:00">3:00</option>
+								<option value="4:00">4:00</option>
+								<option value="5:00">5:00</option>
+								<option value="6:00">6:00</option>
+								<option value="7:00">7:00</option>
+								<option value="8:00">8:00</option>
+								<option value="9:00">9:00</option>
+								<option value="10:00">10:00</option>
+								<option value="11:00">11:00</option>
+								<option value="12:00">12:00</option>
+								<option value="13:00">13:00</option>
+								<option value="14:00">14:00</option>
+								<option value="15:00">15:00</option>
+								<option value="16:00">16:00</option>
+								<option value="17:00">17:00</option>
+								<option value="18:00">18:00</option>
+								<option value="19:00">19:00</option>
+								<option value="20:00">20:00</option>
+								<option value="21:00">21:00</option>
+								<option value="22:00">22:00</option>
+								<option value="23:00">23:00</option>
+								<option value="24:00">24:00</option>
+							 </select>
+						</div>
+						<label class="control-label col-sm-1" for="open">
+							Close :
+						</label>
+						<div class="col-sm-1">
+							<select class="form-control" id="wdclose" name="wdclose">
+								<option selected></option>
+								<option value="0:00">0:00</option>
+								<option value="1:00">1:00</option>
+								<option value="2:00">2:00</option>
+								<option value="3:00">3:00</option>
+								<option value="4:00">4:00</option>
+								<option value="5:00">5:00</option>
+								<option value="6:00">6:00</option>
+								<option value="7:00">7:00</option>
+								<option value="8:00">8:00</option>
+								<option value="9:00">9:00</option>
+								<option value="10:00">10:00</option>
+								<option value="11:00">11:00</option>
+								<option value="12:00">12:00</option>
+								<option value="13:00">13:00</option>
+								<option value="14:00">14:00</option>
+								<option value="15:00">15:00</option>
+								<option value="16:00">16:00</option>
+								<option value="17:00">17:00</option>
+								<option value="18:00">18:00</option>
+								<option value="19:00">19:00</option>
+								<option value="20:00">20:00</option>
+								<option value="21:00">21:00</option>
+								<option value="22:00">22:00</option>
+								<option value="23:00">23:00</option>
+								<option value="24:00">24:00</option>
+							 </select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="operday"> <br>
+						운영일
+					</label>
+					<div class="custom-control custom-checkbox">
+					    <input type="checkbox" class="custom-control-input" id="monday", name = "Monday" checked>
+					    <label class="custom-control-label" for="monday">월요일</label>&nbsp;&nbsp;
+					    <input type="checkbox" class="custom-control-input" id="monday", name = "Tuesday"checked>
+					    <label class="custom-control-label" for="monday">화요일</label>&nbsp;&nbsp;
+					    <input type="checkbox" class="custom-control-input" id="monday", name = "Wensday"checked>
+					    <label class="custom-control-label" for="monday">수요일</label>&nbsp;&nbsp;
+					    <input type="checkbox" class="custom-control-input" id="monday", name = "Thursday"checked>
+					    <label class="custom-control-label" for="monday">목요일</label>&nbsp;&nbsp;
+					    <input type="checkbox" class="custom-control-input" id="monday", name = "Friday"checked>
+					    <label class="custom-control-label" for="monday">금요일</label>&nbsp;&nbsp;
+					    <input type="checkbox" class="custom-control-input" id="monday", name = "Saturday"checked>
+					    <label class="custom-control-label" for="monday">토요일</label>&nbsp;&nbsp;
+					    <input type="checkbox" class="custom-control-input" id="monday", name = "Sunday"checked>
+					    <label class="custom-control-label" for="monday">일요일</label>&nbsp;&nbsp;
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-sm-2" for="comment"> <br>
+						Comment
+					</label>
+					<div class="col-sm-6">
+						<input type="text" class="form-control" id="comment" placeholder="기타 추가 사항" name="comment">
+					</div>
+				</div>
+				<div class="form-group">
+					<p></p>
+					<button type="submit" class="btn btn-primary" value="Submit">등록하기</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<footer class="bg-light text-lg-start">
+
+		<hr class="m-0" />
+		<!-- Copyright -->
+		<div class="text-center p-3"
+			style="background-color: rgba(0, 0, 0, 0.2);">© 2020 Copyright
+			Pacility</div>
+		<!-- Copyright -->
+	</footer>

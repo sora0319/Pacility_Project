@@ -1,0 +1,237 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <script>
+        var gen;
+        function functionCheck(){
+            var name = document.getElementById('name').value;
+            var id = document.getElementById('ID').value;
+            var pw = document.getElementById('passw').value;
+            var pwcheck = document.getElementById('passwcheck').value;
+            var emails = document.getElementById('mail').value;
+            var mph = document.getElementById('mtel').value;
+            var eph = document.getElementById('etel').value;
+
+
+            var nresult = name.localeCompare('');
+            var iresult = id.localeCompare('');
+            var pwresult = pw.localeCompare('');
+            var presult = pwcheck.localeCompare('');
+            var eresult = emails.localeCompare('');
+
+            if (nresult == 0){
+                alert('성명칸에 입력을 해주세요');
+                return 0;
+            }
+            if (iresult == 0){
+                alert('ID칸에 입력을 해주세요');
+                return 0;
+            }
+            if (pwresult == 0){
+                alert('비밀번호칸에 입력을 해주세요');
+                return 0;
+            }
+            if (presult == 0){
+                alert('중복확인칸에 입력을 해주세요');
+                return 0;
+            }
+            if (eresult == 0){
+                alert('email칸에 입력을 해주세요');
+                return 0;
+            }
+            //date value 
+            var dateControl = document.querySelector('input[type="date"]');
+            var dates = dateControl.value;
+            //phone select
+            var s = document.getElementById("phone");
+            var ph = s.options[s.selectedIndex].value;
+            //school select
+            var sch = document.getElementById("school");
+            var schooltype = sch.options[sch.selectedIndex].value;
+
+            var schy = document.getElementById("schoolyear");
+            var schooly = schy.options[schy.selectedIndex].value;
+
+
+            console.log(name);
+            console.log(gen);
+            console.log(id);
+            console.log(pw);
+            console.log(pwcheck);
+            console.log(dates);
+            console.log(emails);
+            console.log(ph);
+            console.log(mph);
+            console.log(eph);
+            console.log(schooltype);
+            console.log(schooly);
+
+            var array = [name, gen, id, pw, pwcheck, dates, emails, ph, mph, eph, schooltype, schooly]
+            function download(content, fileName, contentType) {
+                var a = document.createElement("a");
+                var file = new Blob([content], {type: contentType});
+                a.href = URL.createObjectURL(file);
+                a.download = fileName;
+                a.click();
+            }
+            download(array, 'json.txt', 'text/plain');
+        }
+
+        function getGender(event) {
+            gen = event.target.value;
+        }
+
+        function myFunction() {
+            var pw = document.getElementById('passw').value;
+            var pwcheck = document.getElementById('passwcheck').value;
+            
+            result = pw.localeCompare(pwcheck);
+            if (result != 0){
+                document.getElementById('notinput').style.display = "inline";
+                document.getElementById('notinput').innerHTML = "패스워드 불일치"
+            }
+            else if(result == 0){
+                document.getElementById('notinput').style.display = "inline";
+                document.getElementById('notinput').innerHTML = "패스워드 일치"
+            }
+        }
+        
+        function categoryChange(e) {
+	        var school_a = ["1grade", "2grade", "3grade", "4grade", "5grade", "6grade"];
+	        var school_bc = ["1grade", "2grade", "3grade"];
+	        var school_d = ["1semester", "2semester", "3semester", "4semester", "5semester", "6semester", "7semester", "8semester기"];
+	        var target = document.getElementById("schoolyear");
+
+	        if(e.value == "element") var d = school_a;
+	        else if(e.value == "middle") var d = school_bc;
+	        else if(e.value == "high") var d = school_bc;
+            else if(e.value == "university") var d = school_d;
+
+	        target.options.length = 0;
+
+	        for (x in d) {
+		        var opt = document.createElement("option");
+		        opt.value = d[x];
+		        opt.innerHTML = d[x];
+		        target.appendChild(opt);
+	        }	
+        }
+    </script>
+    <style>
+        form{
+            border: solid 2px #CDFAB9;
+            min-width: 30%;
+            width: 30%;
+        }
+        #Title{
+            font-size: 20px;
+            font-weight: bold;
+        }
+        div{
+            height: 30px;
+        }
+        #N, #I, #PC, #E, #S{
+            background-color: #B9FAC8;
+        }
+        #mtel ,#etel{
+            width: 40px;
+        }
+        button{
+            background-color: white; 
+            color: black; 
+            border: 2px solid #4CAF50;
+            padding: 4px 8px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 13px;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <form action ="/join/joinFormClick" method = "POST">
+        <div id = "Title">
+            회원가입 
+            <div style = "display: inline; color: red; font-size: 10px;">* 는 필수 입력 문항</div>
+        </div>
+        <div id = "N">
+            성명 <div style = "display: inline; color: red;">*</div>
+            <input type="text" name = "name" id = "name">
+        </div>
+        <div id = 'G'>
+            성별 
+            남 <input type="radio" id = "gender" name = "gender" value = "male" onclick='getGender(event)'>
+            여 <input type="radio" id = "gender" name = "gender" value = "female" onclick='getGender(event)'>
+        </div>
+        <div id = "I">
+            ID <div style = "display: inline; color: red;">*</div>
+            <input type="text" id = "ID" name = "ID" maxlength="10">
+        </div>
+        
+        <div id = "P">
+            비밀번호 <div style = "display: inline; color: red;">*</div>
+            <input type="password" name = "password" id = "passw">
+        </div>
+        <div id = "PC">
+            중복확인 <div style = "display: inline; color: red;">*</div>
+            <input type="password" name = "passwordcheck" id = "passwcheck">
+            <button type = "button" onclick="myFunction()">Click me</button>
+            <div id = "notinput" type = "text" style = "display: none; border: none; color: red; font-size: 10px;"></div>
+        </div>
+        
+
+        <div id = "D">
+            생년월일
+            <input type="date" id = "birth" name ="date">
+        </div>
+        
+        <div id = "E"> 
+            email <div style = "display: inline; color: red;">*</div>
+            <input type="email" id = "mail" name ="email">
+        </div>
+
+        <div id = "PH">
+            phone
+            <select id = "phone" name = "phone">
+                <option value="010" name ="fir">010</option>
+                <option value="011" name ="se">011</option>
+                <option value="070" name ="mi">070</option>
+            </select>
+            <input type="text" id = "mtel" maxlength="4" name ="mtel">
+            <input type="text" id = "etel" maxlength="4" name = "etel">
+        </div>
+        <div id = "S">
+            학교
+            <select onchange="categoryChange(this)" id = "school" name ="school">
+                <option value="element">element school</option>
+                <option value="middle">middle school</option>
+                <option value="high">hight school</option>
+                <option value="university">university</option>
+            </select>
+
+            <div style = "display: inline; margin-left: 10px;">
+                <select id = "schoolyear" name = "grade">
+                    <option value="1grade">1grade</option>
+                    <option value="2grade">2grade</option>
+                    <option value="3grade">3grade</option>
+                    <option value="4grade">4grade</option>
+                    <option value="5grade">5grade</option>
+                    <option value="6grade">6grade</option>
+                </select>
+            </div>
+        </div>
+        
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+    
+</body>
+</html>

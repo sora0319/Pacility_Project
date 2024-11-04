@@ -1,0 +1,103 @@
+<!------ Include the above in your HEAD tag ---------->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<title>main.html</title>
+</head>
+
+<style>
+@import './css/mdb.min.css';
+@import './css/mdb.rtl.min.css';
+</style>
+
+<body>
+	<!-- Navigation-->
+	<nav>
+
+		<header>
+			<div class="py-4 text-left"
+				style="background-color: white; height: 120px;">
+				<a role="button" onclick = "gotomain()"
+					target="_blank"> <img
+					src="/images/pacility.png"
+					alt="" style="width: 80px; height: 80px;">
+				</a>
+				<div class="py-4 right" style="float: right;">
+
+					<button class="btn btn-primary btn-lg m-2" onclick = "gotoupload()" target="_blank">
+						기관 등록하기 </button> 
+						<a role="button" class="btn btn-primary btn-lg m-2" onclick = "gotologin()" target="_blank">
+						LogIn</a>
+				</div>
+			</div>
+
+		</header>
+	</nav>
+	<script type="text/javascript" src="./javascripts/link.js"></script>
+
+
+	<body onload="showImage()">
+		<script type="text/javascript">
+			var imgArray = new Array();
+			imgArray[0] = "/images/banner1.png";
+			imgArray[1] = "/images/banner2.png";
+			imgArray[2] = "/images/banner3.png";
+		
+			function showImage() {
+				var imgNum = Math.round(Math.random() * 2);
+				var objImg = document.getElementById("introimg");
+				objImg.src = imgArray[imgNum];
+				setTimeout(showImage, 3000);
+			}
+		</script>
+		<img id="introimg" border="0" src=""
+			style="width: 100%; height: 500px;">
+</body>
+
+<!-- Product section-->
+<section class="py-5">
+	<div class="container px-4 px-lg-5 my-5">
+		<div class="row gx-4 gx-lg-5 align-items-center">
+			<div class="col-md-6">
+				<img class="card-img top mb-5 mb-md-0"
+					src="http://studyinrussia.ru/local/templates/sir/img/section-images/discover-russia/sport.jpg"
+					width="1000px" height="800px" alt="..." />
+			</div>
+			<div class="col-md-6">
+
+				<h1 class="display-5 fw-bolder">Pacility란?</h1>
+				<div class="fs-5 mb-5"></div>
+				<p class="lead">당신이 원하는 운동기관을 찾아보세요!!</p>
+				<p class="lead">포항에서 당신이 원하는 운동을 할 수 있어요</p>
+
+
+				<div class="py-4 right">
+
+					&nbsp;&nbsp;&nbsp;
+
+					<div class="py-4 left">
+
+						<a role="button" class="btn btn-primary btn-lg m-2"
+							onclick = "gotosearch()" target="_blank">
+							스포츠 기관 검색하러 가기 </a>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+</section>
+
+<!-- Footer-->
+<footer class="bg-light text-lg-start">
+
+	<hr class="m-0" />
+	<!-- Copyright -->
+	<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+		© 2020 Copyright Pacility
+	</div>
+	<!-- Copyright -->
+</footer>
+</body></html>

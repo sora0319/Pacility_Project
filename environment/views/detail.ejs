@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
+	
+    <title> detail </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
+	</head>
+	
+	<style>
+	@import '../css/mdb.min.css';
+	@import '../css/mdb.rtl.min.css';
+	</style>
+	
+	<body>
+    
+    <nav>
+		<header>
+			<div class="py-4 text-left"
+				style="background-color: white; height: 120px;">
+				<a role="button" href="main.html" target="_blank"> 
+					<img src="/images/pacility.png" alt="" style="width: 80px; height: 80px;" onclick="location.href='../main' ">
+				</a>
+				<div class="py-4 right" style="float: right;">
+				<form>
+					<button type="button" class="btn btn-primary btn-lg m-2" onclick="location.href='../upload' ">기관 등록하기</button>
+					&nbsp;&nbsp;&nbsp;
+					<button type="button" class="btn btn-primary btn-lg m-2"onclick="location.href='../login' ">LOGIN</button>
+				</form>
+				</div>
+			</div>
+
+		</header>
+	</nav>
+
+	<header class="bg-dark py-5">
+		<div class="text-right text-white">
+			<h1 class="display-4 fw-bolder">&nbsp;&nbsp;&nbsp;&nbsp;자세히 보기</h1>
+		</div>
+	</header>
+	
+	
+	
+	<!-- Product section-->
+	<section class="py-5">
+		<div class="container px-4 px-lg-5 my-5">
+			<div class="row gx-4 gx-lg-5 align-items-left">
+				
+				<div class="col-md-6">
+					<%if(result[0]['image']){%>
+    					<img src="<%= result[0]['image']%>" style="float:left-center;width:500px; height:500px;"/ >
+    				<% }else{ %>
+    					<p class="display-1"> No Image </p>
+    				<% } %>
+				</div>
+				<div class="col-md-6">
+					<h1 class="display-5 fw-bolder"></h1>
+					<div class="fs-5 mb-5"></div>
+					<p class="lead">
+					<!--테이블-->
+						<style>
+							table {
+								font-family: arial, sans-serif;
+								border-collapse: collapse;
+								width: 100%;
+							}
+							
+							td, th {
+								border: 1px solid #50bcdf;
+								text-align: left;
+								padding: 10px;
+							}
+							
+							tr:nth-child(even) {
+								background-color: #50bcdf;
+							}
+							
+							        
+						</style>
+						<table>
+						
+							<tr>
+								<td>기관 명:</td>
+								<td> <h5> <%= result[0]['name']%> </h5> </td>
+							</tr>
+							<tr>
+								<td>주소:</td>
+								<td> <h5> <%= result[0]['address']%> </h5> </td>
+							</tr>
+							<tr>
+								<td>기관 종류:</td>
+								<td> <h5> <%= result[0]['type']%> </h5> </td>
+							</tr>
+							<tr>
+								<td>전화 번호:</td>
+								<td> <h5> <%= result[0]['number']%> </h5> </td>
+							</tr>
+					
+							<tr>
+								<td>기관 사이트 :</td>
+								<td> <h5> <%= result[0]['pagelink']%> </h5> </td>
+							</tr>
+							<tr>
+								<td> 예약 가능 여부:</td>
+								<td> <h5> <%= result[0]['reservation']%> </h5> </td>
+							</tr>
+							<tr>
+								<td> 평일 요금:</td>
+								<td> <h5> <%= result[0]['charge_weekday']%> </h5> </td>
+							</tr>
+							<tr>
+								<td> 주말 요금:</td>
+								<td> <h5> <%= result[0]['charge_weekend']%> </h5> </td>
+							</tr>
+							<tr>
+								<td> 평일 운영 시간:</td>
+								<td> <h5> 시작:<%= result[0]['open_weekday']%> 마감: <%= result[0]['close_weekday']%></h5> </td>
+							</tr>						
+							<tr>
+								<td> 주말 운영 시간:</td>
+								<td> <h5> 시작:<%= result[0]['open_weekend']%> 마감: <%= result[0]['close_weekend']%></h5> </td>
+							</tr>
+							<tr>
+								<td> 운영일:</td>
+								<td> <h5> 
+								월요일: <%= result[0]['Mon']%><br>
+								화요일: <%= result[0]['Tue']%><br>
+								수요일: <%= result[0]['Wed']%><br>
+								목요일: <%= result[0]['Thu']%><br>
+								금요일: <%= result[0]['Fri']%><br>
+								토요일: <%= result[0]['Sat']%><br>
+								일요일: <%= result[0]['Sun']%></h5> </td>
+							</tr>						
+							<tr>
+								<td> 버스 정류장:</td>
+								<td> <h5> <%= result[0]['FacBusStopName']%></h5> </td>
+							</tr>						
+							<tr>
+								<td> 특이 사항:</td>
+								<td> <h5> <%= result[0]['comment']%> </h5> </td>
+							</tr>
+							
+						</table>
+
+					</p>
+
+					<div class="py-4 right">
+
+						&nbsp;&nbsp;&nbsp;
+
+						<div class="py-4 left">
+							<form>
+								<button type="button" class="btn btn-primary btn-lg m-2" onclick="location.href='../search' ">뒤로 가기</button>
+									&nbsp;&nbsp;&nbsp;
+								<button type="button" class="btn btn-primary btn-lg m-2" onclick="location.href='../main' ">홈으로 돌아가기</button>
+							</form>
+						</div>
+					</div>
+
+				</div>
+	
+		</div>
+	</section>
+
+	<!-- Footer-->
+	<footer class="bg-light text-lg-start">
+
+		<hr class="m-0" />
+		<!-- Copyright -->
+		<div class="text-center p-3"
+			style="background-color: rgba(0, 0, 0, 0.2);">© 2020 Copyright
+			Pacility</div>
+		<!-- Copyright -->
+	</footer>
+</body>
+</html>
