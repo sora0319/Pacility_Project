@@ -1,29 +1,37 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+import createError from "http-errors";
+import express from "express";
+import path from "path";
+import cookieParser from "cookie-parser";
+import logger from "morgan";
+import { fileURLToPath } from "url";
+import ejs from "ejs";
+import dotenv from "dotenv";
+import cors from "cors"; // CORS 패키지 추가
 
-//var joinRouter = require('./routes/join');
-//var searchRouter = require('./routes/search');
+// 환경 변수 로드
+dotenv.config();
+const port = process.env.PORT || 3001;
 
-//dbproject
-var loginRouter = require("./routes/login");
-var mainRouter = require("./routes/main");
-var uploadRouter = require("./routes/upload");
-var searchRouter = require("./routes/search");
-var aListRouter = require("./routes/adminlist");
-var detailRouter = require("./routes/detail");
-var mdetailRouter = require("./routes/m_detail");
+const app = express();
+app.use(cors()); // CORS 미들웨어 추가
 
-var app = express();
+// Import routers
+import mainRouter from "./routes/main.js";
+import jwtRouter from "./routes/jwt.mjs";
+import promRouter from "./routes/prom.mjs";
+import logRouter from "./routes/logging_env.mjs";
+import corsRouter from "./routes/cors.mjs";
+import googleRouter from "./routes/google_oauth.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // view engine setup
-//app.set('views', path.join(__dirname, 'views'));
-//app.set('view engine', 'jade');
-//app.set('view engine', 'html');
-app.engine("html", require("ejs").renderFile);
-app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "html");
+app.engine("html", ejs.renderFile);
+
+//app.set("view engine", "ejs");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -31,33 +39,28 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", mainRouter);
-//app.use('/join', joinRouter);
-//app.use('/search', searchRouter);
-
-//dbproject
 app.use("/main", mainRouter);
-app.use("/login", loginRouter);
-app.use("/upload", uploadRouter);
-app.use("/search", searchRouter);
-app.use("/adminlist", aListRouter);
-app.use("/details", detailRouter);
-app.use("/mdetails", mdetailRouter);
+app.use("/jwt", jwtRouter);
+app.use("/prom", promRouter);
+app.use("/log", logRouter);
+app.use("/cors", corsRouter);
+app.use("/oauth", googleRouter);
+
+app.get("/example", (req, res) => {
+    res.render("testview"); // 'views/example.html' 파일을 렌더링
+});
+
+app.get("/", (req, res) => {
+    res.render("googleview"); // 'views/example.html' 파일을 렌더링
+});
 
 // catch 404 and forward to error handler
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
     next(createError(404));
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render("error");
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });
 
-module.exports = app;
+export default app;

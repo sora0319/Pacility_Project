@@ -1,10 +1,20 @@
-var express = require('express');
-var router = express.Router();
+import express from "express";
+import bodyParser from "body-parser";
+const router = express.Router();
+
+router.use(bodyParser.json());
+let tasks = [];
+let users = [];
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('main.html');
+router.get("/tasks", (req, res) => {
+    res.json(tasks);
 });
 
+router.post("/tasks", (req, res) => {
+    const task = req.body;
+    tasks.push(task);
+    res.status(201).json(task);
+});
 
-module.exports = router;
+export default router;
