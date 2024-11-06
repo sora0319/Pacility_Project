@@ -54,6 +54,8 @@ app.get("/", (req, res) => {
     res.render("googleview"); // 'views/example.html' 파일을 렌더링
 });
 
+app.get("/favicon.ico", (req, res) => res.status(204).end());
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
     next(createError(404));
