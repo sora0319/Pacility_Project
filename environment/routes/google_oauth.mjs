@@ -1,20 +1,44 @@
 import express from "express";
 import bodyParser from "body-parser";
-import jwt from "jsonwebtoken";
-import { expressjwt } from "express-jwt";
 import morgan from "morgan";
 import client from "prom-client";
 import winston from "winston";
 import dotenv from "dotenv";
-import { findUser } from "./users.js";
 import cors from "cors";
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import session from "express-session";
+import axios from "axios";
 
 // 환경 변수 로드
 dotenv.config();
-
 const router = express.Router();
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+
+// 세션 설정
+router.use(
+    session({
+        secret: process.env.SECRET_KEY,
+        resave: false,
+        saveUninitialized: true,
+    })
+);
+
+// Passport 초기화 및 세션 연결
+router.use(passport.initialize());
+router.use(passport.session());
+
+// Serialize user
+passport.serializeUser(function (user, done) {
+    done(null, user);
+});
+
+// Deserialize user
+passport.deserializeUser((obj, done) => {
+    done(null, obj);
+});
+
 router.use(cors());
 router.use(bodyParser.json());
 router.use(morgan("combined"));
@@ -53,46 +77,97 @@ const logger = winston.createLogger({
     transports: [new winston.transports.Console(), new winston.transports.File({ filename: "combined.log" })],
 });
 
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-
 passport.use(
     new GoogleStrategy(
         {
             clientID: GOOGLE_CLIENT_ID,
             clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: "http://localhost:3001",
+            callbackURL: "/oauth/auth/google/callback",
         },
-        function (accessToken, refreshToken, profile, cb) {
-            User.findOrCreate({ googleId: profile.id }, function (err, user) {
-                return cb(err, user);
-            });
+        (accessToken, refreshToken, profile, done) => {
+            if (accessToken) {
+                const user = { accessToken, profile };
+                return done(null, user);
+            } else {
+                return done(new Error("Failed to receive access token"));
+            }
         }
     )
 );
 
-// Serialize user
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
-
-// Deserialize user
-passport.deserializeUser(function (id, done) {
-    User.findById(id, function (err, user) {
-        done(err, user);
-    });
-});
-
 router.get(
-    "/login/google",
+    "/auth/google",
     passport.authenticate("google", {
         scope: ["profile", "email"],
     })
 );
 
-router.get("/login/google/callback", passport.authenticate("google", { failureRedirect: "/" }), function (req, res) {
-    // 로그인 성공 시 홈 페이지로 리디렉션
-    res.redirect("/");
+router.get("/auth/google/callback", passport.authenticate("google", { session: true }), (req, res) => {
+    req.session.accessToken = req.user.accessToken;
+    res.send("<script>window.close();</script>"); // 창 닫기
+});
+
+router.get("/auth/google/token", (req, res) => {
+    if (req.session.accessToken) {
+        res.json({ token: req.session.accessToken });
+    } else {
+        res.status(401).json({ error: "Not authenticated" });
+    }
+});
+
+const authenticateToken = async (req, res, next) => {
+    const authHeader = req.headers["authorization"];
+    if (!authHeader) {
+        console.log("헤더 Token 반환이 없음");
+        return res.sendStatus(401);
+    }
+
+    const token = authHeader.startsWith("Bearer ") ? authHeader.split(" ")[1] : authHeader;
+
+    if (!token) {
+        console.log("Token 반환이 없음");
+        return res.sendStatus(401);
+    }
+
+    try {
+        // 구글 토큰 유효성 검사 (최신 엔드포인트 사용)
+        const response = await axios.get(`https://oauth2.googleapis.com/tokeninfo?access_token=${token}`);
+
+        if (response.data.error) {
+            console.log("유효하지 않은 토큰");
+            return res.sendStatus(401);
+        }
+
+        // 유효하면 req 객체에 사용자 정보를 추가하고 다음으로 이동
+        req.auth = response.data; // 필요한 경우 사용자 정보를 req.auth에 저장
+        next();
+    } catch (error) {
+        console.error("Error during token validation:", error.response?.data || error.message);
+        return res.sendStatus(401);
+    }
+};
+
+let tasks = {};
+
+// 사용자별 작업 조회
+router.get("/tasks", authenticateToken, (req, res) => {
+    const userId = req.auth.googleId;
+    logger.info(`Fetching tasks for user ID: ${userId}`);
+    res.json(tasks[userId] || []);
+});
+
+// 사용자별 작업 추가
+router.post("/tasks", authenticateToken, (req, res) => {
+    const userId = req.auth.googleId;
+    const task = req.body;
+
+    if (!tasks[userId]) {
+        tasks[userId] = [];
+    }
+
+    tasks[userId].push(task);
+    logger.info(`Task added for user ID: ${userId}`, task);
+    res.status(201).json(task);
 });
 
 export default router;

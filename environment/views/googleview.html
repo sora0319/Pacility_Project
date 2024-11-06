@@ -44,9 +44,103 @@
     <body>
         <div class="container">
             <h1>ToDo 서비스</h1>
-            <a href="ouath/login/google">
-                <button>Google로 로그인하기</button>
-            </a>
+            <div id="login-section">
+                <button onclick="loginWithGoogle()">로그인</button>
+            </div>
+            <div id="todo-section" style="display: none">
+                <input type="text" id="task-title" placeholder="할 일 제목" />
+                <button onclick="addTask()">작업 추가</button>
+                <ul id="task-list"></ul>
+            </div>
         </div>
+
+        <script>
+            // JavaScript 코드 정의
+            let token = ""; // JWT 토큰 저장 변수
+
+            // 로그인 함수
+            function loginWithGoogle() {
+                const popup = window.open("http://localhost:3001/oauth/auth/google", "Google Login", "width=500,height=600");
+
+                const interval = setInterval(() => {
+                    if (popup.closed) {
+                        clearInterval(interval);
+                        fetchAccessToken(); // 창이 닫힌 후 토큰 요청
+                    }
+                }, 1000);
+            }
+
+            async function fetchAccessToken() {
+                try {
+                    const response = await fetch("http://localhost:3001/oauth/auth/google/token", {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        credentials: "include",
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log("Access Token:", data.token);
+                        alert(`Access Token received: ${data.token}`);
+                        if (data.token) {
+                            token = data.token;
+                            document.getElementById("login-section").style.display = "none";
+                            document.getElementById("todo-section").style.display = "block";
+                            fetchTasks(); // 로그인 후 작업 목록 가져오기
+                        }
+                    } else {
+                        alert("Failed to get access token.");
+                    }
+                } catch (error) {
+                    console.error("Error fetching access token:", error);
+                }
+            }
+
+            // 작업 목록 가져오기 함수
+            function fetchTasks() {
+                fetch("http://localhost:3001/oauth/tasks", {
+                    method: "GET",
+                    headers: {
+                        Authorization: `${token}`,
+                    },
+                })
+                    .then((response) => response.json())
+                    .then((tasks) => {
+                        const taskList = document.getElementById("task-list");
+                        taskList.innerHTML = ""; // 기존 목록 초기화
+                        tasks.forEach((task) => {
+                            const li = document.createElement("li");
+                            li.textContent = task.title;
+                            taskList.appendChild(li);
+                        });
+                    })
+                    .catch((error) => console.error("Error:", error));
+            }
+
+            // 작업 추가 함수
+            function addTask() {
+                const title = document.getElementById("task-title").value;
+
+                fetch("http://localhost:3001/oauth/tasks", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `${token}`,
+                    },
+                    body: JSON.stringify({ title, completed: false }),
+                })
+                    .then((response) => response.json())
+                    .then((task) => {
+                        const taskList = document.getElementById("task-list");
+                        const li = document.createElement("li");
+                        li.textContent = task.title;
+                        taskList.appendChild(li);
+                        document.getElementById("task-title").value = ""; // 입력 필드 초기화
+                    })
+                    .catch((error) => console.error("Error:", error));
+            }
+        </script>
     </body>
 </html>
