@@ -17,11 +17,12 @@ app.use(cors()); // CORS 미들웨어 추가
 
 // Import routers
 import mainRouter from "./routes/main.js";
-import jwtRouter from "./routes/jwt.mjs";
-import promRouter from "./routes/prom.mjs";
-import logRouter from "./routes/logging_env.mjs";
-import corsRouter from "./routes/cors.mjs";
-import googleRouter from "./routes/google_oauth.mjs";
+import jwtRouter from "./routes/exercise/jwt.mjs";
+import promRouter from "./routes/exercise/prom.mjs";
+import logRouter from "./routes/exercise/logging_env.mjs";
+import corsRouter from "./routes/exercise/cors.mjs";
+//import googleRouter from "./routes/google_oauth.mjs";
+import googleRouter from "./routes/exercise/google_oauth_stateless.mjs";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,11 +48,11 @@ app.use("/cors", corsRouter);
 app.use("/oauth", googleRouter);
 
 app.get("/example", (req, res) => {
-    res.render("testview"); // 'views/example.html' 파일을 렌더링
+    res.render("exercise/testview"); // 'views/example.html' 파일을 렌더링
 });
 
 app.get("/", (req, res) => {
-    res.render("googleview"); // 'views/example.html' 파일을 렌더링
+    res.render("exercise/googleview_stateless"); // 'views/example.html' 파일을 렌더링
 });
 
 app.get("/favicon.ico", (req, res) => res.status(204).end());
